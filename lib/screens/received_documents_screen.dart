@@ -5,7 +5,7 @@ import 'dart:convert';
 
 class ReceivedDocumentsScreen extends StatefulWidget {
   final Map<String, dynamic> user;
-  const ReceivedDocumentsScreen({required this.user, Key? key}) : super(key: key);
+  const ReceivedDocumentsScreen({super.key, required this.user});
 
   @override
   State<ReceivedDocumentsScreen> createState() => _ReceivedDocumentsScreenState();
@@ -50,17 +50,17 @@ class _ReceivedDocumentsScreenState extends State<ReceivedDocumentsScreen> {
   Color _getStatusColor(String? status) {
     switch (status?.toLowerCase()) {
       case 'tagged':
-        return Color(0xFF2196F3);
+        return const Color(0xFF2196F3);
       case 'received':
-        return Color(0xFFFF9800);
+        return const Color(0xFFFF9800);
       case 'processing':
-        return Color(0xFFFFC107);
+        return const Color(0xFFFFC107);
       case 'completed':
-        return Color(0xFF4CAF50);
+        return const Color(0xFF4CAF50);
       case 'forwarded':
-        return Color(0xFF9C27B0);
+        return const Color(0xFF9C27B0);
       default:
-        return Color(0xFF9E9E9E);
+        return const Color(0xFF9E9E9E);
     }
   }
 
@@ -68,10 +68,10 @@ class _ReceivedDocumentsScreenState extends State<ReceivedDocumentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Received Documents'),
+        title: const Text('Received Documents'),
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh_rounded),
+            icon: const Icon(Icons.refresh_rounded),
             onPressed: () {
               setState(() {
                 loading = true;
@@ -83,7 +83,7 @@ class _ReceivedDocumentsScreenState extends State<ReceivedDocumentsScreen> {
         ],
       ),
       body: loading
-          ? Center(
+          ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -101,21 +101,21 @@ class _ReceivedDocumentsScreenState extends State<ReceivedDocumentsScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.error_outline_rounded,
                         size: 64,
                         color: Colors.red,
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
                         error!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Color(0xFF666666),
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       ElevatedButton.icon(
                         onPressed: () {
                           setState(() {
@@ -124,14 +124,14 @@ class _ReceivedDocumentsScreenState extends State<ReceivedDocumentsScreen> {
                           });
                           loadDocs();
                         },
-                        icon: Icon(Icons.refresh_rounded),
-                        label: Text('Retry'),
+                        icon: const Icon(Icons.refresh_rounded),
+                        label: const Text('Retry'),
                       ),
                     ],
                   ),
                 )
               : docs.isEmpty
-                  ? Center(
+                  ? const Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -162,26 +162,26 @@ class _ReceivedDocumentsScreenState extends State<ReceivedDocumentsScreen> {
                       ),
                     )
                   : ListView.builder(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       itemCount: docs.length,
                       itemBuilder: (_, i) {
                         final d = docs[i];
                         return Card(
-                          margin: EdgeInsets.only(bottom: 12),
+                          margin: const EdgeInsets.only(bottom: 12),
                           child: Padding(
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
                                         vertical: 4,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: _getStatusColor(d['status']).withOpacity(0.1),
+                                        color: _getStatusColor(d['status']).withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Text(
@@ -193,37 +193,37 @@ class _ReceivedDocumentsScreenState extends State<ReceivedDocumentsScreen> {
                                         ),
                                       ),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
                                       d['timestamp'] ?? 'Unknown',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 12,
                                         color: Color(0xFF666666),
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 12),
+                                const SizedBox(height: 12),
                                 Text(
                                   d['title'] ?? 'No Title',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFF1A1A1A),
                                   ),
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.person_outline_rounded,
                                       size: 16,
                                       color: Color(0xFF666666),
                                     ),
-                                    SizedBox(width: 4),
+                                    const SizedBox(width: 4),
                                     Text(
                                       'From: ${d['sender_name'] ?? 'Unknown'}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
                                       ),
