@@ -37,7 +37,7 @@ jobs:
         run: flutter analyze
 
       - name: Build web
-        run: flutter build web --release --web-renderer canvaskit --base-href /tracker_app/
+        run: flutter build web --release --base-href /tracker_app/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
