@@ -28,7 +28,7 @@ jobs:
         run: flutter pub get
 
       - name: Analyze code
-        run: flutter analyze --fatal-warnings  # Only fail on errors and warnings, not info
+        run: flutter analyze --fatal-infos
 
       - name: Build web
         run: flutter build web --release --web-renderer canvaskit
