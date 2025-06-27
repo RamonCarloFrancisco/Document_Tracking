@@ -1,16 +1,7 @@
-# tracker_app
+Source Code: https://github.com/RamonCarloFrancisco/tracker_app
+Live App: https://ramoncarlofrancisco.github.io/tracker_app/
 
-A new Flutter project.
+Reminders: 
+1. The live link will only get you to the login page. Even you have an access code you can't login. Github can only show a simple html, css and javascript files. Another reason It can't access the database. 
+2. Source code: It is the compilation of static files. 
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
