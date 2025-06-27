@@ -6,7 +6,7 @@ import 'dart:convert';
 class TrackDocumentScreen extends StatefulWidget {
   final Map<String, dynamic> user;
   final int documentId;
-  const TrackDocumentScreen({required this.user, required this.documentId, Key? key}) : super(key: key);
+  const TrackDocumentScreen({super.key, required this.user, required this.documentId});
 
   @override
   State<TrackDocumentScreen> createState() => _TrackDocumentScreenState();
@@ -142,7 +142,7 @@ class _TrackDocumentScreenState extends State<TrackDocumentScreen> with SingleTi
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 10,
                   offset: Offset(0, 4),
                 ),
@@ -180,7 +180,7 @@ class _TrackDocumentScreenState extends State<TrackDocumentScreen> with SingleTi
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: Offset(0, 4),
             ),
@@ -255,7 +255,7 @@ class _TrackDocumentScreenState extends State<TrackDocumentScreen> with SingleTi
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: Offset(0, 4),
             ),
@@ -337,7 +337,7 @@ class _TrackDocumentScreenState extends State<TrackDocumentScreen> with SingleTi
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: statusColor.withOpacity(0.3),
+                      color: statusColor.withValues(alpha: 0.3),
                       blurRadius: 8,
                       offset: Offset(0, 2),
                     ),
@@ -369,7 +369,7 @@ class _TrackDocumentScreenState extends State<TrackDocumentScreen> with SingleTi
                 border: Border.all(color: Colors.grey[200]!),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 8,
                     offset: Offset(0, 2),
                   ),
@@ -394,7 +394,7 @@ class _TrackDocumentScreenState extends State<TrackDocumentScreen> with SingleTi
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: statusColor.withOpacity(0.1),
+                          color: statusColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -498,7 +498,7 @@ class _TrackDocumentScreenState extends State<TrackDocumentScreen> with SingleTi
     return Container(
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
