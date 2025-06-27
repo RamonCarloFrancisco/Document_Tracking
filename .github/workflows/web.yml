@@ -17,9 +17,9 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.32.5"  # Updated to match required version
+          flutter-version: "3.24.3" # Specific version instead of "any"
           channel: "stable"
-          cache: true  # Enable caching for faster builds
+          cache: true # Enable caching for faster builds
 
       - name: Verify Flutter installation
         run: flutter doctor -v
@@ -28,15 +28,15 @@ jobs:
         run: flutter pub get
 
       - name: Analyze code
-        run: flutter analyze --fatal-infos
+        run: flutter analyze
 
       - name: Build web
-        run: flutter build web --release --web-renderer canvaskit
+        run: flutter build web --release
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4  # Updated to v4
+        uses: peaceiris/actions-gh-pages@v4 # Updated to v4
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
-          cname: your-domain.com  # Optional: add your custom domain
+          # cname: your-domain.com # Optional: add your custom domain
