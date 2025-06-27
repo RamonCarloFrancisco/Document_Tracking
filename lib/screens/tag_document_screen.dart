@@ -5,7 +5,7 @@ import 'dart:convert';
 
 class TagDocumentScreen extends StatefulWidget {
   final Map<String, dynamic> user;
-  const TagDocumentScreen({required this.user, Key? key}) : super(key: key);
+  const TagDocumentScreen({super.key, required this.user});
 
   @override
   State<TagDocumentScreen> createState() => _TagDocumentScreenState();
@@ -43,21 +43,25 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
       ).timeout(const Duration(seconds: 10));
       
       final data = jsonDecode(resp.body);
-      setState(() {
-        loadingEmployees = false;
-        if (data['success'] == true) {
-          employees = data['users'] ?? [];
-        } else {
-          employees = [];
-          _showErrorSnackBar(data['message'] ?? 'Failed to load employees');
-        }
-      });
+      if (mounted) {
+        setState(() {
+          loadingEmployees = false;
+          if (data['success'] == true) {
+            employees = data['users'] ?? [];
+          } else {
+            employees = [];
+            _showErrorSnackBar(data['message'] ?? 'Failed to load employees');
+          }
+        });
+      }
     } catch (e) {
-      setState(() {
-        loadingEmployees = false;
-        employees = [];
-      });
-      _showErrorSnackBar('Could not connect to server');
+      if (mounted) {
+        setState(() {
+          loadingEmployees = false;
+          employees = [];
+        });
+        _showErrorSnackBar('Could not connect to server');
+      }
     }
   }
 
@@ -90,57 +94,65 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
       ).timeout(const Duration(seconds: 10));
       
       final data = jsonDecode(resp.body);
-      setState(() => loading = false);
-      
-      if (data['success']) {
-        _showSuccessSnackBar(data['message'] ?? 'Document tagged successfully');
-        Navigator.pop(context, true); // Return true to indicate success
-      } else {
-        _showErrorSnackBar(data['message'] ?? 'Failed to tag document');
+      if (mounted) {
+        setState(() => loading = false);
+        
+        if (data['success']) {
+          _showSuccessSnackBar(data['message'] ?? 'Document tagged successfully');
+          Navigator.pop(context, true); // Return true to indicate success
+        } else {
+          _showErrorSnackBar(data['message'] ?? 'Failed to tag document');
+        }
       }
     } catch (e) {
-      setState(() => loading = false);
-      _showErrorSnackBar('Could not connect to server');
+      if (mounted) {
+        setState(() => loading = false);
+        _showErrorSnackBar('Could not connect to server');
+      }
     }
   }
 
   void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(Icons.error_outline, color: Colors.white),
-            SizedBox(width: 8),
-            Expanded(child: Text(message)),
-          ],
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error_outline, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(child: Text(message)),
+            ],
+          ),
+          backgroundColor: Colors.red.shade600,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
-        backgroundColor: Colors.red.shade600,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-    );
+      );
+    }
   }
 
   void _showSuccessSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(Icons.check_circle_outline, color: Colors.white),
-            SizedBox(width: 8),
-            Expanded(child: Text(message)),
-          ],
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.check_circle_outline, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(child: Text(message)),
+            ],
+          ),
+          backgroundColor: Colors.green.shade600,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
-        backgroundColor: Colors.green.shade600,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-    );
+      );
+    }
   }
 
   Widget _buildStepIndicator() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Row(
         children: [
           _buildStep(1, 'Document', true),
@@ -173,7 +185,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
             ),
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           label,
           style: TextStyle(
@@ -191,7 +203,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
       child: Container(
         height: 2,
         color: Colors.grey.shade300,
-        margin: EdgeInsets.symmetric(horizontal: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 8),
       ),
     );
   }
@@ -201,7 +213,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        title: Text('Tag Document', style: TextStyle(fontWeight: FontWeight.w600)),
+        title: const Text('Tag Document', style: TextStyle(fontWeight: FontWeight.w600)),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
         elevation: 0.5,
@@ -214,13 +226,13 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   _buildDocumentSection(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildRecipientsSection(),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   _buildSubmitButton(),
                 ],
               ),
@@ -236,34 +248,34 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(Icons.description, color: Theme.of(context).primaryColor),
                 ),
-                SizedBox(width: 12),
-                Text(
+                const SizedBox(width: 12),
+                const Text(
                   'Document Details',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 labelText: 'Document Type',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                prefixIcon: Icon(Icons.category_outlined),
+                prefixIcon: const Icon(Icons.category_outlined),
                 filled: true,
                 fillColor: Colors.grey.shade50,
               ),
@@ -276,26 +288,26 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
             ),
             
             if (selectedTitle == 'Others') ...[
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextField(
                 controller: _titleController,
                 decoration: InputDecoration(
                   labelText: 'Custom Title',
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                  prefixIcon: Icon(Icons.edit_outlined),
+                  prefixIcon: const Icon(Icons.edit_outlined),
                   filled: true,
                   fillColor: Colors.grey.shade50,
                 ),
               ),
             ],
             
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: _descriptionController,
               decoration: InputDecoration(
                 labelText: 'Description (Optional)',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                prefixIcon: Icon(Icons.notes_outlined),
+                prefixIcon: const Icon(Icons.notes_outlined),
                 filled: true,
                 fillColor: Colors.grey.shade50,
                 hintText: 'Add additional details about the document...',
@@ -313,34 +325,34 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
+                    color: Colors.orange.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(Icons.people_outline, color: Colors.orange.shade700),
                 ),
-                SizedBox(width: 12),
-                Text(
+                const SizedBox(width: 12),
+                const Text(
                   'Recipients',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 labelText: 'Recipient Unit',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                prefixIcon: Icon(Icons.business_outlined),
+                prefixIcon: const Icon(Icons.business_outlined),
                 filled: true,
                 fillColor: Colors.grey.shade50,
               ),
@@ -361,11 +373,11 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
               },
             ),
             
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             
             if (selectedEmployees.isNotEmpty)
               Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.green.shade50,
                   borderRadius: BorderRadius.circular(8),
@@ -374,7 +386,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
                 child: Row(
                   children: [
                     Icon(Icons.check_circle, color: Colors.green.shade600, size: 20),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
                       '${selectedEmployees.length} recipient(s) selected',
                       style: TextStyle(color: Colors.green.shade700, fontWeight: FontWeight.w500),
@@ -383,7 +395,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
                 ),
               ),
             
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             
             Container(
               height: 300,
@@ -392,7 +404,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: loadingEmployees
-                  ? Center(
+                  ? const Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -408,7 +420,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.people_outline, size: 48, color: Colors.grey.shade400),
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                               Text(
                                 selectedUnit == null ? 'Select a unit first' : 'No employees found',
                                 style: TextStyle(color: Colors.grey.shade600),
@@ -420,29 +432,29 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade100,
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(8),
                                   topRight: Radius.circular(8),
                                 ),
                               ),
                               child: Row(
                                 children: [
-                                  Text('Select Recipients:', style: TextStyle(fontWeight: FontWeight.w600)),
-                                  Spacer(),
+                                  const Text('Select Recipients:', style: TextStyle(fontWeight: FontWeight.w600)),
+                                  const Spacer(),
                                   if (selectedEmployees.length == employees.length)
                                     TextButton(
                                       onPressed: () => setState(() => selectedEmployees.clear()),
-                                      child: Text('Deselect All'),
+                                      child: const Text('Deselect All'),
                                     )
                                   else
                                     TextButton(
                                       onPressed: () => setState(() {
                                         selectedEmployees = employees.map((e) => e['id'] as int).toList();
                                       }),
-                                      child: Text('Select All'),
+                                      child: const Text('Select All'),
                                     ),
                                 ],
                               ),
@@ -463,7 +475,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
                                     child: CheckboxListTile(
                                       title: Text(
                                         emp['full_name'],
-                                        style: TextStyle(fontWeight: FontWeight.w500),
+                                        style: const TextStyle(fontWeight: FontWeight.w500),
                                       ),
                                       subtitle: Text('ID: ${emp['id']}'),
                                       value: isSelected,
@@ -498,10 +510,10 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
       child: loading
           ? Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(0.7),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Center(
+              child: const Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -530,7 +542,7 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 elevation: 2,
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.send_outlined),
@@ -542,4 +554,3 @@ class _TagDocumentScreenState extends State<TagDocumentScreen> {
     );
   }
 }
-
