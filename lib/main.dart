@@ -55,7 +55,7 @@ class DocumentTrackerApp extends StatelessWidget {
             ),
           ),
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           shadowColor: Colors.black.withOpacity(0.1),
           shape: RoundedRectangleBorder(
