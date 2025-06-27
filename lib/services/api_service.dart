@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'http://192.168.0.150/tracker_app';
+  static const String baseUrl = 'http://192.168.0.150/tracker_app'; 
   static const Duration _timeout = Duration(seconds: 15);
 
   // Enhanced error handling wrapper
