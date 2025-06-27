@@ -6,7 +6,7 @@ import 'track_document_screen.dart';
 
 class SearchDocumentsScreen extends StatefulWidget {
   final Map<String, dynamic> user;
-  const SearchDocumentsScreen({required this.user, Key? key}) : super(key: key);
+  const SearchDocumentsScreen({super.key, required this.user});
 
   @override
   State<SearchDocumentsScreen> createState() => _SearchDocumentsScreenState();
@@ -44,25 +44,29 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
           .timeout(const Duration(seconds: 10));
 
       final data = jsonDecode(resp.body);
-      setState(() {
-        loading = false;
-        if (data['success'] == true) {
-          documents = data['documents'] ?? [];
-        } else {
-          documents = [];
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(data['message'] ?? 'Search failed')),
-          );
-        }
-      });
+      if (mounted) {
+        setState(() {
+          loading = false;
+          if (data['success'] == true) {
+            documents = data['documents'] ?? [];
+          } else {
+            documents = [];
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(data['message'] ?? 'Search failed')),
+            );
+          }
+        });
+      }
     } catch (e) {
-      setState(() {
-        loading = false;
-        documents = [];
-      });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Could not connect to server')));
+      if (mounted) {
+        setState(() {
+          loading = false;
+          documents = [];
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not connect to server'))
+        );
+      }
     }
   }
 
@@ -82,36 +86,40 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
           .timeout(const Duration(seconds: 10));
 
       final data = jsonDecode(resp.body);
-      setState(() {
-        loading = false;
-        if (data['success'] == true) {
-          documents = data['documents'] ?? [];
-        } else {
-          documents = [];
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(data['message'] ?? 'Failed to load documents'),
-            ),
-          );
-        }
-      });
+      if (mounted) {
+        setState(() {
+          loading = false;
+          if (data['success'] == true) {
+            documents = data['documents'] ?? [];
+          } else {
+            documents = [];
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(data['message'] ?? 'Failed to load documents'),
+              ),
+            );
+          }
+        });
+      }
     } catch (e) {
-      setState(() {
-        loading = false;
-        documents = [];
-      });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Could not connect to server')));
+      if (mounted) {
+        setState(() {
+          loading = false;
+          documents = [];
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not connect to server'))
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Find Documents')),
+      appBar: AppBar(title: const Text('Find Documents')),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             // Search Type Selector
@@ -119,7 +127,7 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
               children: [
                 Expanded(
                   child: SegmentedButton<String>(
-                    segments: [
+                    segments: const [
                       ButtonSegment(value: 'all', label: Text('All')),
                       ButtonSegment(value: 'sent', label: Text('Sent')),
                       ButtonSegment(value: 'received', label: Text('Received')),
@@ -142,7 +150,7 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
               ],
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // Search Bar
             TextField(
@@ -150,32 +158,32 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
               decoration: InputDecoration(
                 labelText:
                     'Search by title, description, or sender/receiver name',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                   onPressed: searchDocuments,
                 ),
               ),
               onSubmitted: (_) => searchDocuments(),
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // Quick Actions
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    icon: Icon(Icons.history),
-                    label: Text('Recent Documents'),
+                    icon: const Icon(Icons.history),
+                    label: const Text('Recent Documents'),
                     onPressed: loadRecentDocuments,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Expanded(
                   child: OutlinedButton.icon(
-                    icon: Icon(Icons.clear),
-                    label: Text('Clear'),
+                    icon: const Icon(Icons.clear),
+                    label: const Text('Clear'),
                     onPressed: () {
                       setState(() {
                         _searchController.clear();
@@ -188,15 +196,15 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
               ],
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // Results
             Expanded(
               child:
                   loading
-                      ? Center(child: CircularProgressIndicator())
+                      ? const Center(child: CircularProgressIndicator())
                       : !hasSearched
-                      ? Center(
+                      ? const Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -207,7 +215,7 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
                         ),
                       )
                       : documents.isEmpty
-                      ? Center(
+                      ? const Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -226,7 +234,7 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
                         itemBuilder: (context, index) {
                           final doc = documents[index];
                           return Card(
-                            margin: EdgeInsets.symmetric(vertical: 4),
+                            margin: const EdgeInsets.symmetric(vertical: 4),
                             child: ListTile(
                               leading: CircleAvatar(
                                 backgroundColor: _getStatusColor(
@@ -236,7 +244,7 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
                               ),
                               title: Text(
                                 doc['title'] ?? 'No Title',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +264,7 @@ class _SearchDocumentsScreenState extends State<SearchDocumentsScreen> {
                                   ),
                                 ],
                               ),
-                              trailing: Icon(Icons.arrow_forward_ios),
+                              trailing: const Icon(Icons.arrow_forward_ios),
                               onTap: () {
                                 Navigator.push(
                                   context,
