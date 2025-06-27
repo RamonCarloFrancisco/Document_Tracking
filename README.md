@@ -1,11 +1,11 @@
 
-#NCCP Document Tracking System
+NCCP Document Tracking System
 
 Source Code: https://github.com/RamonCarloFrancisco/tracker_app
 
 Live App: https://ramoncarlofrancisco.github.io/tracker_app/
 
-#Important Notice
+Important Notice
 
 Live Demo Limitations:
 
@@ -14,11 +14,9 @@ This repository contains static files only - the complete system requires a PHP 
 
 GitHub Pages Limitations
 
-GitHub Pages can only serve static HTML, CSS, and JavaScript files. Since this system is built with PHP and requires database connectivity, the live demo is non-functional on GitHub Pages.
-About This Repository
+GitHub Pages can only serve static HTML, CSS, and JavaScript files. Since this system is built with Flutter (.dart) and requires database connectivity, the live demo is non-functional on GitHub Pages.
 
 This repository contains the complete source code for the NCCP Document Tracking System, compiled as static files for version control and sharing purposes.
-Technology Stack
 
 Backend: PHP
 Frontend: Flutter (.dart)
