@@ -1,12 +1,13 @@
-//===main.dart====
 import 'package:flutter/material.dart';
 import 'screens/login_screen.dart';
 
 void main() {
-  runApp(DocumentTrackerApp());
+  runApp(MyApp()); // Changed to MyApp to match test file expectation
 }
 
-class DocumentTrackerApp extends StatelessWidget {
+class MyApp extends StatelessWidget { // Renamed from DocumentTrackerApp to MyApp
+  const MyApp({super.key}); // Added required key parameter
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,7 +58,7 @@ class DocumentTrackerApp extends StatelessWidget {
         ),
         cardTheme: CardThemeData(
           elevation: 2,
-          shadowColor: Colors.black.withOpacity(0.1),
+          shadowColor: Colors.black.withValues(alpha: 0.1), // Fixed deprecated withOpacity
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
