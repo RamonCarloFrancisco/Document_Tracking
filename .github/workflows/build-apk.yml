@@ -3,8 +3,8 @@ name: Build Flutter APK
 on:
   push:
     tags:
-      - 'v*'  # Only build APK when you push version tags
-  workflow_dispatch:  # Allow manual trigger
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   build-apk:
@@ -23,7 +23,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.29.3'  # Match your current version
+        flutter-version: '3.29.3'
         channel: 'stable'
         
     - name: Install dependencies
@@ -32,26 +32,27 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
       
-    - name: Upload APK to Release
+    - name: Upload APK to Release (if triggered by tag)
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: build/app/outputs/flutter-apk/app-release.apk
         body: |
-          ## Tracker App Release
+          ## 📱 Tracker App Release
           
           Download the APK below to install on your Android device.
           
-          ### Installation
+          ### 📥 Installation Instructions
           1. Download the APK file
           2. Enable "Install from Unknown Sources" in your Android settings
           3. Install the APK
+          4. Enjoy your Tracker App!
           
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Upload APK as Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tracker-app-apk
         path: build/app/outputs/flutter-apk/app-release.apk
